@@ -1,0 +1,24 @@
+﻿@model PortalDataPresentation.ViewModels.LineChartVM
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+
+<h2>@Model.Controller Computation</h2>
+
+@await Html.PartialAsync("DataFilter", Model)
+
+@await Html.PartialAsync("LineChart", Model)
+
+<input type="button" id="btnCompute" value="Compute" class="btn btn-primary" />
+
+<script>
+    var btnCompute = document.getElementById("btnCompute");
+
+    btnCompute.addEventListener('click', function () {
+        passDataToAnalysis('bar');
+    });
+</script>
+
+@await Html.PartialAsync("SingleDataSourceVisualization", Model)

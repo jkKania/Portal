@@ -1,0 +1,48 @@
+﻿@model PortalDataPresentation.ViewModels.LineChartVM
+@{
+    string width = Model.ChartWidth.HasValue ? @Model.ChartWidth.Value.ToString() : "1000";
+    string height = Model.ChartHeight.HasValue ? @Model.ChartHeight.Value.ToString() : "600";
+}
+<canvas id="measurementsChart" width=@width height=@height;></canvas>
+<script src="~/js/Chart.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded',function () {
+        var ctx = document.getElementById("measurementsChart").getContext('2d');
+        var measurementsChart = new Chart(ctx,
+            {
+                type: 'line',
+                data: {
+                    labels: @Json.Serialize(@Model.Data.Select(x=>x.RecordCreateTime)),
+                    datasets: [
+                        {
+                            label: 'Measurement data',
+                            data: @Json.Serialize(@Model.Data.Select(x=>x.Value)),
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(54, 162, 235, 1)',
+                            ],
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: false,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [
+                            {
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }
+                        ]
+                    }
+                }
+            });
+
+    })
+
+</script>

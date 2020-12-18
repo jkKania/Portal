@@ -1,0 +1,46 @@
+﻿@model PortalDataPresentation.ViewModels.PostMeasurementsVM
+
+@{
+    ViewData["Title"] = "PostMeasurements";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>PostMeasurements</h2>
+
+<h4>PostMeasurementsVM</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data" asp-controller="MeasurementDatas" asp-action="PostMeasurements">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DataTypeName" class="control-label"></label>
+                <input asp-for="DataTypeName" class="form-control" />
+                <span asp-validation-for="DataTypeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstalationName" class="control-label"></label>
+                <input asp-for="InstalationName" class="form-control" />
+                <span asp-validation-for="InstalationName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LocationName" class="control-label"></label>
+                <input asp-for="LocationName" class="form-control" />
+                <span asp-validation-for="LocationName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Value" class="control-label"></label>
+                <input asp-for="Value" class="form-control" />
+                <span asp-validation-for="Value" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

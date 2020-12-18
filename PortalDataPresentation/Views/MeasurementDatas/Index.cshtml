@@ -1,0 +1,42 @@
+﻿<html>
+@using PortalDataPresentation.Controllers
+@model PortalDataPresentation.ViewModels.LineChartVM
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+<body>
+    <div class="col-md-6; col-lg-12">
+        <h2>Measurements for: <b>@Model.DataTypeName </b> </h2>
+
+        <div>
+            @await Html.PartialAsync("DataFilter", Model)
+        </div>
+
+        <div style="margin-top: 10px">
+            <form asp-controller="MeasurementDatas" asp-action="DownloadCsv" method="get">
+                <input asp-for="DataTypeName" type="hidden" value="@Model.DataTypeName" />
+                <input asp-for="MinDate" type="hidden" value="@Model.MinDate" />
+                <input asp-for="MaxDate" type="hidden" value="@Model.MaxDate" />
+                <button class="btn btn-success" id="btnDownloadCSV" type="submit">Download CSV</button>
+            </form>
+        </div>
+        <div>
+            @await Html.PartialAsync("LineChart", Model)
+        </div>
+        <div>
+            @{
+                foreach (var operation in Model.Operations)
+                {
+                    <input type="button" class="btn btn-primary" value="@operation" onclick="location.href=' @Url.Action("Index", @operation)'" />
+                }
+            }
+        </div>
+        <div>
+            @await Html.PartialAsync("RefreshTable", Model.Data)
+        </div>
+    </div>
+</body>
+</html>

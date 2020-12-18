@@ -1,0 +1,77 @@
+﻿@model PortalDataPresentation.ViewModels.LineChartVM
+
+<div id="chart-container">
+    <canvas id="analysisChart"></canvas>
+</div>
+<script>
+    function passDataToAnalysis(chartType, polynomialDegree, predictionDate,directRegressionMethod) {
+        var data = {
+            "minDate": "@Model.MinDate.ToString("yyyy-MM-dd HH:mm:ss")",
+            "maxDate": "@Model.MaxDate.ToString("yyyy-MM-dd HH:mm:ss")",
+            "dataTypeName": "@Model.DataTypeName",
+            "polynomialDegree": polynomialDegree,
+            "predictionDate": predictionDate,
+            "regressionMethod": directRegressionMethod
+        };
+
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            url: '@Url.Action(@Model.Controller, @Model.Controller)' ,
+            dataType: 'JSON',
+            data: JSON.stringify(data),
+            success: function (response) {
+                console.log(data);
+                drawChart(response.labels, response.result, chartType);
+                if (response.formula !== "")
+                    txtFormula.value = response.formula;
+            },
+            error: function(e) {
+                alert(e);
+            }
+        });
+    }
+    function drawChart(labels, result, chartType) {
+        $('#analysisChart').remove();
+        $('#chart-container').append('<canvas id="analysisChart" width="400" height="400"></canvas>');
+        var ctx = document.getElementById("analysisChart").getContext('2d');
+
+        var analysisChart = new Chart(ctx,
+            {
+                type: chartType,
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: ['@Model.Controller'],
+                            data: result,
+                            fill: false,
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(54, 162, 235, 1)'
+                            ],
+                            borderWidth: 1,
+
+                        },
+                    ],
+                },
+                options: {
+                    responsive: false,
+                    hoverMode: 'index',
+                    stacked: false,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [
+                            {
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }
+                        ]
+                    }
+                }
+            });
+    }
+</script>

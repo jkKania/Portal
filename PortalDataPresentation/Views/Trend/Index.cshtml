@@ -1,0 +1,39 @@
+﻿@model PortalDataPresentation.ViewModels.LineChartVM
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+
+<h2>@Model.Controller Computation</h2>
+
+@await Html.PartialAsync("DataFilter", Model)
+
+@await Html.PartialAsync("LineChart", Model)
+
+<input type="text" readonly="true" id="txtFormula" placeholder="Polymonial formula" class="form-control" />
+<div style="width: 200px;">
+    <label>Regression Method</label>
+    <select class="form-control" id="directRegressionMethod">
+        <option>QR</option>
+        <option value="NormalEquations">Normal Equations</option>
+        <option value="Svd">SVD</option>
+    </select>
+    <input type="text" id="txtPolynomialDegree" placeholder="Polymonial degree" class="form-control" />
+</div>
+<input type="button" id="btnCompute" value="Compute" class="btn btn-primary" />
+<script>
+    var btnCompute = document.getElementById("btnCompute");
+    var txtPolynomialDegree = document.getElementById("txtPolynomialDegree");
+    var txtFormula = document.getElementById("txtFormula");
+    var directRegressionMethod = document.getElementById("directRegressionMethod");
+
+
+    btnCompute.addEventListener('click',
+        function () {
+            var polynomialDegree = txtPolynomialDegree.value;
+            passDataToAnalysis('line',polynomialDegree);
+        });
+</script>
+
+@await Html.PartialAsync("TwoDataSourceVisualization", Model)

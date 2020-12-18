@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    @@media print {
+        .no-print, .no-print * {
+            display: none !important;
+        }
+    }
+</style>
+<br />
+<br />
+<h2>Certyfikat przejścia przez portal</h2>
+<body>
+    <div id="printableArea">
+        <img id="blah" src="#" alt="wgraj zdjęcie" width="400" height="400" />
+    </div>
+
+
+
+    <div class="no-print">
+        Wgraj zdjęcie:
+        <input type='file' id="imgInp" onchange="readURL(this);" class="btn btn-success" />
+        <input type="button" onclick="printDiv('printableArea')" value="Druku certyfikat" id="printBtn" class="btn btn-success" />
+    </div>
+</body>
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('blah').src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+</script>

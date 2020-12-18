@@ -1,0 +1,35 @@
+﻿@model IEnumerable<PortalData.Models.ReceivedMeasurement>
+
+<h3>
+    List of measurements
+</h3>
+<table class="table-responsive table-bordered  table-striped">
+    <thead>
+        <tr>
+            <th class="text-center">
+                Measurement date
+            </th>
+            <th class="text-center">
+                Data type name
+            </th>
+            <th class="text-center">
+                Value
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.RecordCreateTime)
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.DataTypeKeyName)
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.Value)
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
